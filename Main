@@ -1,0 +1,72 @@
+import random
+import time
+
+# Sample parking lot setup
+parking_lot = {
+    "P1": {"occupied": False, "vehicle": None},
+    "P2": {"occupied": False, "vehicle": None},
+    "P3": {"occupied": False, "vehicle": None},
+    "P4": {"occupied": False, "vehicle": None},
+    "P5": {"occupied": False, "vehicle": None},
+}
+
+# Function to display parking slot status
+def display_parking_status():
+    print("\n--- Parking Lot Status ---")
+    for slot, details in parking_lot.items():
+        status = "Occupied" if details["occupied"] else "Available"
+        print(f"{slot}: {status}")
+
+# Function to find available slots
+def find_available_slot():
+    for slot, details in parking_lot.items():
+        if not details["occupied"]:
+            return slot
+    return None
+
+# Simulate parking a vehicle
+def park_vehicle(vehicle_number):
+    slot = find_available_slot()
+    if slot:
+        parking_lot[slot]["occupied"] = True
+        parking_lot[slot]["vehicle"] = vehicle_number
+        print(f"Vehicle {vehicle_number} parked at {slot}.")
+    else:
+        print("No parking slots available.")
+
+# Simulate un-parking a vehicle
+def unpark_vehicle(slot):
+    if slot in parking_lot and parking_lot[slot]["occupied"]:
+        vehicle = parking_lot[slot]["vehicle"]
+        parking_lot[slot]["occupied"] = False
+        parking_lot[slot]["vehicle"] = None
+        print(f"Vehicle {vehicle} has left slot {slot}.")
+    else:
+        print(f"Slot {slot} is already empty or invalid.")
+
+# Main program
+def smart_parking_system():
+    while True:
+        display_parking_status()
+        print("\nOptions:")
+        print("1. Park a vehicle")
+        print("2. Un-park a vehicle")
+        print("3. Exit")
+        
+        choice = input("Enter your choice: ")
+        if choice == "1":
+            vehicle_number = input("Enter vehicle number: ")
+            park_vehicle(vehicle_number)
+        elif choice == "2":
+            slot = input("Enter parking slot to un-park (e.g., P1): ")
+            unpark_vehicle(slot)
+        elif choice == "3":
+            print("Exiting the system. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+        time.sleep(1)
+
+# Run the system
+if __name__ == "__main__":
+    smart_parking_system()
